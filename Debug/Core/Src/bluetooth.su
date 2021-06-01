@@ -1,0 +1,2 @@
+bluetooth.c:10:6:sendPacket	16	static
+bluetooth.c:14:6:receivePacket	16	static
