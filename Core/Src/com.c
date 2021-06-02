@@ -9,6 +9,17 @@
 
 uint8_t commandBuffer[200];
 
+void sendPacket(uint8_t* packet, uint16_t len) {
+	HAL_UART_Transmit(&huart1, packet, len, HAL_MAX_DELAY);
+}
+
+void receivePacket(uint8_t* packet, uint16_t len) {
+	HAL_UART_Receive(&huart1, packet, len, HAL_MAX_DELAY);
+}
+
+
+
+
 void sendACK(uint8_t ltf) {
 	uint8_t ackBuffer[2];
 
@@ -25,6 +36,7 @@ void sendNACK(void) {
 
 void getCommand(void) {
 	uint8_t recieveLen = 0;
+	memset(commandBuffer, 0, sizeof(commandBuffer));
 
 	receivePacket(commandBuffer, 1);
 	recieveLen = commandBuffer[0];

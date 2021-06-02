@@ -211,7 +211,7 @@ void TIM1_UP_TIM10_IRQHandler(void)
   /* USER CODE END TIM1_UP_TIM10_IRQn 0 */
   HAL_TIM_IRQHandler(&htim1);
   /* USER CODE BEGIN TIM1_UP_TIM10_IRQn 1 */
-  HAL_UART_Receive_IT(&huart1, &state, 1);
+
 
   /* USER CODE END TIM1_UP_TIM10_IRQn 1 */
 }
@@ -226,7 +226,7 @@ void USART1_IRQHandler(void)
   /* USER CODE END USART1_IRQn 0 */
   HAL_UART_IRQHandler(&huart1);
   /* USER CODE BEGIN USART1_IRQn 1 */
-
+  HAL_UART_Receive_IT(&huart1, &state, 1);
   /* USER CODE END USART1_IRQn 1 */
 }
 

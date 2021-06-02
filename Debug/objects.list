@@ -1,4 +1,3 @@
-"Core/Src/bluetooth.o"
 "Core/Src/com.o"
 "Core/Src/debugger.o"
 "Core/Src/main.o"

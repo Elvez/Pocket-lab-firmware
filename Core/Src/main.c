@@ -19,7 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "bluetooth.h"
+#include "com.h"
 #include "debugger.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */

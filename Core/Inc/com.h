@@ -8,9 +8,13 @@
 #ifndef INC_COM_H_
 #define INC_COM_H_
 
-#include "bluetooth.h"
 #include "debugger.h"
 #include "stdbool.h"
+#include "stm32f4xx.h"
+#include "stm32f4xx_hal.h"
+#include "stdio.h"
+#include "string.h"
+
 
 #define		FIRMWARE_VERSION	1.00
 #define		DEVICE_ID			0xDD
@@ -46,6 +50,11 @@
 #define		OSC_CHANNEL_BOTH	0xD3
 
 extern CRC_HandleTypeDef hcrc;
+extern UART_HandleTypeDef huart1;
+
+void sendPacket(uint8_t* packet, uint16_t len);
+
+void receivePacket(uint8_t* packet, uint16_t len);
 
 void sendACK(uint8_t ltf);
 
