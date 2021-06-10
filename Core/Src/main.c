@@ -19,11 +19,11 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "com.h"
-#include "debugger.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "com.h"
+#include "debugger.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -45,8 +45,8 @@ CRC_HandleTypeDef hcrc;
 
 UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
-uint8_t state = '0';
-
+DMA_HandleTypeDef hdma_usart1_rx;
+uint8_t commandBuffer[20];
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -54,6 +54,7 @@ uint8_t state = '0';
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
+static void MX_DMA_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_CRC_Init(void);
@@ -73,7 +74,6 @@ static void MX_CRC_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	uint8_t yes = 'y';
 
   /* USER CODE END 1 */
 
@@ -95,10 +95,12 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
   MX_CRC_Init();
   /* USER CODE BEGIN 2 */
+  HAL_UART_Receive_DMA(&huart1, commandBuffer, 20);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -106,10 +108,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	  if(state == yes) {
-		  sendPacket(&state, 1);
-		  HAL_Delay(200);
-	  }
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -254,6 +253,22 @@ static void MX_USART2_UART_Init(void)
 }
 
 /**
+  * Enable DMA controller clock
+  */
+static void MX_DMA_Init(void)
+{
+
+  /* DMA controller clock enable */
+  __HAL_RCC_DMA2_CLK_ENABLE();
+
+  /* DMA interrupt init */
+  /* DMA2_Stream2_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA2_Stream2_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA2_Stream2_IRQn);
+
+}
+
+/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -292,6 +307,9 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
+	HAL_UART_Transmit(&huart1, commandBuffer, 20, 100);
+}
 /* USER CODE END 4 */
 
  /**

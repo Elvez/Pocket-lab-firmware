@@ -14,6 +14,7 @@
 #include "stm32f4xx_hal.h"
 #include "stdio.h"
 #include "string.h"
+#include "stdarg.h"
 
 
 #define		FIRMWARE_VERSION	1.00
@@ -52,6 +53,15 @@
 extern CRC_HandleTypeDef hcrc;
 extern UART_HandleTypeDef huart1;
 
+typedef enum {
+	OSCILLOSCOPE,
+	MULTIMETER,
+	WAVEGENERATOR,
+	POWERSOURCE,
+	IDLE
+} DeviceState;
+
+
 void sendPacket(uint8_t* packet, uint16_t len);
 
 void receivePacket(uint8_t* packet, uint16_t len);
@@ -62,7 +72,18 @@ void sendNACK(void);
 
 void getCommand(void);
 
-uint8_t verifyCRC(uint8_t* commandData, uint32_t len, uint32_t crcHost);
+void cmdMultimeter(uint8_t* buffer);
+
+void cmdWave(uint8_t* buffer);
+
+void cmdSource(uint8_t* buffer);
+
+void cmdOsc(uint8_t* buffer);
+
+
+bool isCommandWaiting(void);
+
+void freeCommand(void);
 
 
 
