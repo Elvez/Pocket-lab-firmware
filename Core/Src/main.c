@@ -24,6 +24,8 @@
 /* USER CODE BEGIN Includes */
 #include "com.h"
 #include "debugger.h"
+#include "stdbool.h"
+#include "device.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -47,6 +49,11 @@ UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
 DMA_HandleTypeDef hdma_usart1_rx;
 uint8_t commandBuffer[20];
+uint8_t commandState = FREE;
+MultimeterTypedef multimeter_;
+PowerSourceTypedef powerSource_;
+WaveGeneratorTypedef waveGenerator_;
+OscilloscopeTypedef oscilloscope_;
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -59,7 +66,7 @@ static void MX_USART1_UART_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_CRC_Init(void);
 /* USER CODE BEGIN PFP */
-
+void initDevices(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -83,6 +90,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
+  initDevices();
 
   /* USER CODE END Init */
 
@@ -108,7 +116,12 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+	  if(commandState == WAITING) {
+		  processCMD(commandBuffer);
+		  commandState = FREE;
+	  } else if(commandState == FREE) {
+		  runDevice(multimeter_, waveGenerator_, powerSource_, oscilloscope_);
+	  }
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -308,8 +321,32 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
-	HAL_UART_Transmit(&huart1, commandBuffer, 20, 100);
+	commandState = WAITING;
 }
+
+void initDevices(void) {
+	multimeter_.source_ = 1;
+	multimeter_.state_ = STATE_OFF;
+
+	waveGenerator_.amplitude_ = 0;
+	waveGenerator_.period_ = 0;
+	waveGenerator_.source_ = 1;
+	waveGenerator_.state = STATE_OFF;
+	waveGenerator_.wave_ = SINE;
+
+	powerSource_.source_ = 1;
+	powerSource_.state_ = STATE_OFF;
+	powerSource_.value_ = 0;
+
+	oscilloscope_.state_ = STATE_OFF;
+	oscilloscope_.channel_ = 1;
+	oscilloscope_.period_ = 0;
+	oscilloscope_.unit_ = MICRO;
+
+	commandState = FREE;
+}
+
+
 /* USER CODE END 4 */
 
  /**

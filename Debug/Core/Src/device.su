@@ -1,0 +1,2 @@
+device.c:18:6:processCMD	24	static
+device.c:45:6:runDevice	24	static

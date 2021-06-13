@@ -21,45 +21,64 @@
 #define		DEVICE_ID			0xDD
 #define		ACK					0xAA
 #define		NACK				0xFF
-#define		CRC_SUCCESS			0x01
-#define		CRC_FAIL			0x00
+#define		WAITING				1
+#define		FREE				0
 
-#define		MULTIMETER_START	0xA1
-#define		MULTIMETER_STOP		0xB1
-#define		VOLTMETER			0x11
-#define		AMMETER				0x12
-
-#define 	WAVE_START			0xA2
-#define		WAVE_STOP			0xB2
-#define		WAVE_SOURCE_ONE		0x21
-#define		WAVE_SOURCE_TWO		0x22
-#define		WAVE_SIN			0xC1
-#define		WAVE_SQUARE			0xC2
-#define		WAVE_TRIANG			0xC3
-
-#define 	SOURCE_START		0xA3
-#define 	SOURCE_STOP			0xB3
-#define		POWER_SOURCE_ONE	0x31
-#define		POWER_SOURCE_TWO	0x32
-#define		POWER_SOURCE_THREE	0x33
-#define		POWER_SOURCE_FOUR	0x34
-
-#define		OSC_START			0xA4
-#define		OSC_STOP			0xB4
-#define		OSC_CHANNEL_ONE		0xD1
-#define		OSC_CHANNEL_TWO		0xD2
-#define		OSC_CHANNEL_BOTH	0xD3
+#define		MULTIMETER			'M'
+#define 	WAVE_GENERATOR		'W'
+#define 	POWER_SOURCE		'P'
+#define		OSCILLOSCOPE		'O'
+#define		STATE_HIGH			'H'
+#define		STATE_LOW			'L'
 
 extern CRC_HandleTypeDef hcrc;
 extern UART_HandleTypeDef huart1;
 
 typedef enum {
-	OSCILLOSCOPE,
-	MULTIMETER,
-	WAVEGENERATOR,
-	POWERSOURCE,
-	IDLE
-} DeviceState;
+	STATE_OFF = 0,
+	STATE_ON = 1
+} StateTypedef;
+
+typedef enum {
+	SINE = 1,
+	SQUARE = 2,
+	TRIANG = 3
+} WaveTypedef;
+
+typedef enum {
+	MICRO = 1,
+	MILLI = 2,
+	SECOND = 3
+} UnitTypedef;
+
+typedef struct {
+	StateTypedef state_;
+	uint8_t source_;
+} MultimeterTypedef;
+
+typedef struct {
+	uint8_t source_;
+	StateTypedef state_;
+	float value_;
+} PowerSourceTypedef;
+
+typedef struct {
+	uint8_t source_;
+	StateTypedef state;
+	WaveTypedef wave_;
+	float amplitude_;
+	uint16_t period_;
+} WaveGeneratorTypedef;
+
+typedef struct {
+	uint8_t channel_;
+	StateTypedef state_;
+	uint16_t period_;
+	UnitTypedef unit_;
+} OscilloscopeTypedef;
+
+
+
 
 
 void sendPacket(uint8_t* packet, uint16_t len);
@@ -70,20 +89,7 @@ void sendACK(uint8_t ltf);
 
 void sendNACK(void);
 
-void getCommand(void);
 
-void cmdMultimeter(uint8_t* buffer);
-
-void cmdWave(uint8_t* buffer);
-
-void cmdSource(uint8_t* buffer);
-
-void cmdOsc(uint8_t* buffer);
-
-
-bool isCommandWaiting(void);
-
-void freeCommand(void);
 
 
 
