@@ -15,6 +15,8 @@
 #include "stdio.h"
 #include "string.h"
 #include "stdarg.h"
+#include <stdlib.h>
+
 
 
 #define		FIRMWARE_VERSION	1.00
@@ -88,6 +90,8 @@ void receivePacket(uint8_t* packet, uint16_t len);
 void sendACK(uint8_t ltf);
 
 void sendNACK(void);
+
+void sendFormat(char* format, ...);
 
 
 

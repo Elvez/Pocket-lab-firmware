@@ -31,5 +31,13 @@ void sendNACK(void) {
 	sendPacket(&nack, 1);
 }
 
+void sendFormat(char* format, ...) {
+	char message[20];
+	va_list args;
+	va_start(args, format);
+	vsprintf(message, format, args);
 
+	HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), HAL_MAX_DELAY);
+	va_end(args);
+}
 
