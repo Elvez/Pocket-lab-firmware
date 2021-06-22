@@ -13,7 +13,10 @@ extern PowerSourceTypedef powerSource_;
 extern WaveGeneratorTypedef waveGenerator_;
 extern OscilloscopeTypedef oscilloscope_;
 
+uint16_t multimeterVoltVal_ = 0;
+uint16_t multimeterCurrVal_ = 0;
 uint16_t multimeterVal_ = 0;
+
 
 void processCMD(uint8_t* command_) {
 		uint8_t header_ = command_[0];
@@ -44,9 +47,14 @@ void processCMD(uint8_t* command_) {
 
 void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceTypedef ps_, OscilloscopeTypedef osc_) {
 	if(mul_.state_ == STATE_ON) {
-		multimeterVal_ = getADCvalue();
+		if(mul_.source_ == 1) {
+			multimeterVoltVal_ = getADCvalue();
+		} else {
+			//
+		}
+		multimeterVal_ = multimeterVoltVal_;
 		sendFormat("%d!", multimeterVal_);
-		halt(25);
+		halt(150);
 	} else if(osc_.state_ == STATE_ON) {
 
 	} else {
@@ -64,7 +72,6 @@ uint16_t getADCvalue(void) {
 
 	HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
 	value_ = HAL_ADC_GetValue(&hadc1);
-
 
 	return value_;
 }
