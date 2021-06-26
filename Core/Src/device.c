@@ -16,6 +16,8 @@ extern OscilloscopeTypedef oscilloscope_;
 uint16_t multimeterVoltVal_ = 0;
 uint16_t multimeterCurrVal_ = 0;
 uint16_t multimeterVal_ = 0;
+uint16_t oscVal_[100];
+int iter = 0;
 
 
 void processCMD(uint8_t* command_) {
@@ -46,15 +48,24 @@ void processCMD(uint8_t* command_) {
 }
 
 void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceTypedef ps_, OscilloscopeTypedef osc_) {
-	if(mul_.state_ == STATE_ON) {
+	if(mul_.state_ == STATE_OFF) {
 		if(mul_.source_ == 1) {
-			multimeterVoltVal_ = getADCvalue();
+			for(uint8_t iter = 0; iter < 100; iter++) {
+				oscVal_[iter] = getADCvalue();
+
+			}
+			//multimeterVoltVal_ = getADCvalue();
 		} else {
-			//
+
 		}
-		multimeterVal_ = multimeterVoltVal_;
-		sendFormat("%d!", multimeterVal_);
-		halt(150);
+		//multimeterVal_ = multimeterVoltVal_;
+		//sendFormat("%d!", multimeterVal_);
+		//debug("%d!", multimeterVal_);
+		for(uint8_t iter = 0; iter < 100; iter++) {
+			debug("%d! ", oscVal_[iter]);
+		}
+		iter ++;
+		debug("---------------------%d-----------------------\n\r", iter);
 	} else if(osc_.state_ == STATE_ON) {
 
 	} else {

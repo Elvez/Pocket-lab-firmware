@@ -1,4 +1,4 @@
-device.c:21:6:processCMD	24	static
-device.c:48:6:runDevice	24	static
-device.c:65:6:halt	16	static
-device.c:69:10:getADCvalue	16	static
+device.c:23:6:processCMD	24	static
+device.c:50:6:runDevice	40	static
+device.c:76:6:halt	16	static
+device.c:80:10:getADCvalue	16	static
