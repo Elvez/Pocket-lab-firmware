@@ -25,6 +25,8 @@ void debug(char* format, ...);
 
 void blink(uint8_t turns, uint32_t delay);
 
+void debugSend(uint8_t data);
+
 
 
 

@@ -18,6 +18,10 @@ void debug(char* format, ...) {
 	va_end(args);
 }
 
+void debugSend(uint8_t data) {
+	HAL_UART_Transmit(&huart2, &data, 1, HAL_MAX_DELAY);
+}
+
 void blink(uint8_t turns, uint32_t delay) {
 	for(uint8_t iter = 0; iter < 2*turns; iter++)
 	{

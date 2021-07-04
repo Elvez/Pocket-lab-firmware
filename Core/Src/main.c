@@ -26,6 +26,7 @@
 #include "debugger.h"
 #include "stdbool.h"
 #include "device.h"
+#include "string.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -52,7 +53,7 @@ UART_HandleTypeDef huart2;
 DMA_HandleTypeDef hdma_usart1_rx;
 
 /* USER CODE BEGIN PV */
-uint8_t commandBuffer[20];
+char commandBuffer[20];
 uint8_t commandState = FREE;
 OscilloscopeTypedef oscilloscope_;
 MultimeterTypedef multimeter_;
@@ -112,7 +113,7 @@ int main(void)
   MX_CRC_Init();
   MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
-  HAL_UART_Receive_DMA(&huart1, commandBuffer, 20);
+  HAL_UART_Receive_DMA(&huart1, (uint8_t*)commandBuffer, 20);
   /* USER CODE END 2 */
 
   /* Infinite loop */
