@@ -4,8 +4,6 @@
  *  Created on: 13-Jun-2021
  *      Author: elvez
  */
-
-
 #include "device.h"
 
 //Device typedefs
