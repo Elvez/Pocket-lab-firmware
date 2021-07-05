@@ -1,5 +1,7 @@
-device.c:22:6:processCMD	40	static
-device.c:104:6:runDevice	24	static
-device.c:121:6:halt	16	static
-device.c:125:10:getADCvalue	16	static
-device.c:135:5:parseInt	16	static
+device.c:28:6:processCMD	48	static
+device.c:282:6:runDevice	24	static
+device.c:303:6:delayMS	16	static
+device.c:307:10:getADCvalue	16	static
+device.c:322:7:parseFloat	16	static
+device.c:326:5:parseInt	16	static
+device.c:330:6:resetParams	16	static

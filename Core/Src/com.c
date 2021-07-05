@@ -10,24 +10,34 @@
 
 
 void sendPacket(uint8_t* packet, uint16_t len) {
+	//Send packet
 	HAL_UART_Transmit(&huart1, packet, len, HAL_MAX_DELAY);
 }
 
 void receivePacket(uint8_t* packet, uint16_t len) {
+	//Receive packet
 	HAL_UART_Receive(&huart1, packet, len, HAL_MAX_DELAY);
 }
 
 void sendACK(uint8_t ltf) {
+	//ACK buffer
 	uint8_t ackBuffer[2];
 
+	//ACK
 	ackBuffer[0] = ACK;
+
+	//Length to follow
 	ackBuffer[1] = ltf;
+
+	//Send buffer
 	sendPacket(ackBuffer, 2);
 }
 
 void sendNACK(void) {
+	//NACK buffer
 	uint8_t nack = NACK;
 
+	//Send buffer
 	sendPacket(&nack, 1);
 }
 

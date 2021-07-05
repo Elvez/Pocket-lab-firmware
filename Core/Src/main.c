@@ -55,7 +55,8 @@ DMA_HandleTypeDef hdma_usart1_rx;
 /* USER CODE BEGIN PV */
 char commandBuffer[20];
 uint8_t commandState = FREE;
-OscilloscopeTypedef oscilloscope_;
+OscilloscopeTypedef oscilloscopeCh1_;
+OscilloscopeTypedef oscilloscopeCh2_;
 MultimeterTypedef multimeter_;
 WaveGeneratorTypedef waveGenerator_;
 PowerSourceTypedef powerSource_;
@@ -124,7 +125,7 @@ int main(void)
 	  processCMD(commandBuffer);
 	  commandState = FREE;
 	} else if(commandState == FREE) {
-	  runDevice(multimeter_, waveGenerator_, powerSource_, oscilloscope_);
+	  runDevice(multimeter_, waveGenerator_, powerSource_, oscilloscopeCh1_, oscilloscopeCh2_);
 	}
     /* USER CODE END WHILE */
 
@@ -394,10 +395,13 @@ void initDevices(void) {
 	powerSource_.state_ = STATE_OFF;
 	powerSource_.value_ = 0;
 
-	oscilloscope_.state_ = STATE_OFF;
-	oscilloscope_.channel_ = 1;
-	oscilloscope_.period_ = 0;
-	oscilloscope_.unit_ = MICRO;
+	oscilloscopeCh1_.state_ = STATE_OFF;
+	oscilloscopeCh1_.period_ = 0;
+	oscilloscopeCh1_.unit_ = MICRO;
+
+	oscilloscopeCh2_.state_ = STATE_OFF;
+	oscilloscopeCh2_.period_ = 0;
+	oscilloscopeCh2_.unit_ = MICRO;
 
 	commandState = FREE;
 }

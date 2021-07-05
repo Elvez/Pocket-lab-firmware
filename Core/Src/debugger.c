@@ -9,16 +9,25 @@
 #include "debugger.h"
 
 void debug(char* format, ...) {
+	//Message to send
 	char message[100];
+
+	//Arguments
 	va_list args;
+
+	//Get arguments from format
 	va_start(args, format);
+
+	//Copy arguments to the message
 	vsprintf(message, format, args);
 
+	//Send message
 	HAL_UART_Transmit(&huart2, (uint8_t *)message, strlen(message), HAL_MAX_DELAY);
 	va_end(args);
 }
 
 void debugSend(uint8_t data) {
+	//Send byte
 	HAL_UART_Transmit(&huart2, &data, 1, HAL_MAX_DELAY);
 }
 
