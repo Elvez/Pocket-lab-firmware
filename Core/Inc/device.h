@@ -89,4 +89,24 @@ int parseInt(char c);
  */
 void resetParams(char device);
 
+/*
+ * Kills oscilloscope task
+ *
+ * Stops sending packets if sending
+ *
+ * @params : none
+ * @return : none
+ */
+void killOscilloscope(void);
+
+/*
+ * Kills multimeter task
+ *
+ * Stops sending packets if sending
+ *
+ * @params : none
+ * @return : none
+ */
+void killMultimeter(void);
+
 #endif /* INC_DEVICE_H_ */

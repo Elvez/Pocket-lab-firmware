@@ -390,10 +390,12 @@ void initDevices(void) {
 	waveGenerator_.source_ = 1;
 	waveGenerator_.state = STATE_OFF;
 	waveGenerator_.wave_ = SINE;
+	waveGenerator_.isWaiting_ = false;
 
 	powerSource_.source_ = 1;
 	powerSource_.state_ = STATE_OFF;
 	powerSource_.value_ = 0;
+	powerSource_.isWaiting_ = false;
 
 	oscilloscopeCh1_.state_ = STATE_OFF;
 	oscilloscopeCh1_.period_ = 0;

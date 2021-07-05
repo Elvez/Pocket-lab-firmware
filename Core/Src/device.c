@@ -285,6 +285,10 @@ void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceType
 		OscilloscopeTypedef osc1_, OscilloscopeTypedef osc2_) {
 	//Multimeter turned on
 	if(mul_.state_ == STATE_ON) {
+		//Stop any running service
+		killOscilloscope();
+
+		//Start multimeter
 		if(mul_.source_ == 1) {
 			//Get ADC value
 			multimeterVoltVal_ = getADCvalue();
@@ -295,8 +299,23 @@ void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceType
 		//Send value at approximately 5Hz
 		sendFormat("%d!", multimeterVoltVal_);
 		delayMS(150);
-	} else if(osc1_.state_ == STATE_ON) {
 
+	} else if(osc1_.state_ == STATE_ON) {
+		//Stop any running services
+		killMultimeter();
+	} else if(osc2_.state_ == STATE_ON) {
+		//Stop any running services
+		killMultimeter();
+	} else if(waveGenerator_.isWaiting_) {
+		//TODO: Turn on WG
+
+		//Free device
+		waveGenerator_.isWaiting_ = false;
+	} else if(powerSource_.isWaiting_) {
+		//TODO: Turn on PS
+
+		//Free device
+		powerSource_.isWaiting_ = false;
 	} else {
 
 	}
@@ -353,4 +372,14 @@ void resetParams(char device) {
 		break;
 	}
 }
+
+void killOscilloscope(void) {
+	oscilloscopeCh1_.state_ = STATE_OFF;
+	oscilloscopeCh2_.state_ = STATE_OFF;
+}
+
+void killMultimeter(void) {
+	multimeter_.state_ = STATE_OFF;
+}
+
 

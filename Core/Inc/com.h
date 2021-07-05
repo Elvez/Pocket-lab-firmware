@@ -69,6 +69,7 @@ typedef struct {
 	uint8_t source_;
 	StateTypedef state_;
 	float value_;
+	bool isWaiting_;
 } PowerSourceTypedef;
 
 //Wave generator typedef
@@ -78,6 +79,7 @@ typedef struct {
 	WaveTypedef wave_;
 	float amplitude_;
 	float period_;
+	bool isWaiting_;
 } WaveGeneratorTypedef;
 
 //Oscilloscope typedef
