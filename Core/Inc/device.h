@@ -37,7 +37,7 @@ void processCMD(char* command_);
  * @return : none
  */
 void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceTypedef ps_,
-		OscilloscopeTypedef osc1_, OscilloscopeTypedef osc2_);
+		OscilloscopeTypedef osc1_, OscilloscopeTypedef osc2_, PWMTypedef* pwm_);
 
 /*
  * Millisecond delay

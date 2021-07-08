@@ -28,6 +28,7 @@
 #define 	WAVE_GENERATOR		'W'
 #define 	POWER_SOURCE		'P'
 #define		OSCILLOSCOPE		'O'
+#define		PWM_GENERATOR		'G'
 #define		STATE_HIGH			'H'
 #define		STATE_LOW			'L'
 
@@ -88,6 +89,12 @@ typedef struct {
 	float period_;
 	UnitTypedef unit_;
 } OscilloscopeTypedef;
+
+//PWM typedef
+typedef struct {
+	StateTypedef state_;
+	int dutyCycle_;
+} PWMTypedef;
 
 /*
  * Send Packet

@@ -12,6 +12,7 @@ extern PowerSourceTypedef powerSource_;
 extern WaveGeneratorTypedef waveGenerator_;
 extern OscilloscopeTypedef oscilloscopeCh1_;
 extern OscilloscopeTypedef oscilloscopeCh2_;
+extern PWMTypedef pwmGenerator_[];
 
 //Multimeter voltmeter value
 uint16_t multimeterVoltVal_ = 0;
@@ -35,6 +36,9 @@ void processCMD(char* command_) {
 
 	//General use iterator
 	int iter = 0;
+
+	//PWM pointer
+	int pwmSource = 0;
 
 	switch(header_) {
 	//Multimeter command
@@ -272,6 +276,30 @@ void processCMD(char* command_) {
 
 		break;
 
+	//PWM generator command
+	case PWM_GENERATOR:
+		//Set source
+		pwmSource = parseInt(command_[1]) - 1;
+
+		//Set state
+		if(command_[2] == STATE_HIGH) {
+			pwmGenerator_[pwmSource].state_ = STATE_ON;
+
+			//Parse duty cycle
+			for(int iter = 3; command_[iter] != '-'; iter++) {
+				pwmGenerator_[pwmSource].dutyCycle_ = (pwmGenerator_[pwmSource].dutyCycle_ * 10)
+														+ parseInt(command_[iter]);
+			}
+		} else if(command_[2] == STATE_LOW) {
+			pwmGenerator_[pwmSource].state_ = STATE_OFF;
+
+			pwmGenerator_[pwmSource].dutyCycle_ = 0;
+		} else {
+			debug("Bad command\n\r");
+		}
+
+		break;
+
 	//Bad command received
 	default:
 		break;
@@ -280,7 +308,7 @@ void processCMD(char* command_) {
 
 
 void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceTypedef ps_,
-		OscilloscopeTypedef osc1_, OscilloscopeTypedef osc2_) {
+		OscilloscopeTypedef osc1_, OscilloscopeTypedef osc2_, PWMTypedef* pwm_) {
 	//Multimeter turned on
 	if(mul_.state_ == STATE_ON) {
 		//Stop any running service
@@ -298,12 +326,20 @@ void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceType
 		sendFormat("%d!", multimeterVoltVal_);
 		delayMS(150);
 
-	} else if(osc1_.state_ == STATE_ON) {
+	} else if(osc1_.state_ == STATE_ON || osc2_.state_ == STATE_ON) {
 		//Stop any running services
 		killMultimeter();
-	} else if(osc2_.state_ == STATE_ON) {
-		//Stop any running services
-		killMultimeter();
+
+		for(int iter = 0; iter < 1000; iter++) {
+			oscVal_[iter] = getADCvalue();
+		}
+
+		for(int iter = 0; iter < 1000; iter++) {
+			sendFormat("%d!", oscVal_[iter]);
+			delayMS(100);
+		}
+
+
 	} else if(waveGenerator_.isWaiting_) {
 		//TODO: Turn on WG
 
