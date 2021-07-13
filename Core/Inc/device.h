@@ -109,4 +109,14 @@ void killOscilloscope(void);
  */
 void killMultimeter(void);
 
+/*
+ * Sample one value and send
+ *
+ * Samples one value from ADC and sends with the given delay
+ *
+ * @params : DelayMilliseconds(uint32_t)
+ * @return : none
+ */
+void sampleAndSend(uint32_t delay);
+
 #endif /* INC_DEVICE_H_ */

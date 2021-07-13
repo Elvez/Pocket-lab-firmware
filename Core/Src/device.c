@@ -15,13 +15,7 @@ extern OscilloscopeTypedef oscilloscopeCh2_;
 extern PWMTypedef pwmGenerator_[];
 
 //Multimeter voltmeter value
-uint16_t multimeterVoltVal_ = 0;
-
-//Multimeter ammeter value
-uint16_t multimeterCurrVal_ = 0;
-
-//Oscilloscope plot
-uint16_t oscVal_[1000];
+uint16_t adcRaw_ = 0;
 
 
 void processCMD(char* command_) {
@@ -175,13 +169,14 @@ void processCMD(char* command_) {
 	//Oscilloscope command
 	case OSCILLOSCOPE:
 		//Store channel
-		if(command_[1] == '1') {
+		switch(command_[1]) {
+		case '1':
 			if(command_[2] == STATE_HIGH) {
 				//Store state
 				oscilloscopeCh1_.state_ = STATE_ON;
 
 				//Store period as integer
-				for(int iter = 3; command_[iter] != 'U'; iter++) {
+				for(iter = 3; command_[iter] != 'U'; iter++) {
 					if(command_[iter] != '.') {
 						if(decimalFlag) decimals++;
 						oscilloscopeCh1_.period_ = (oscilloscopeCh1_.period_ * 10) + parseFloat(command_[iter]);
@@ -195,6 +190,8 @@ void processCMD(char* command_) {
 					oscilloscopeCh1_.period_ = oscilloscopeCh1_.period_ / 10;
 					decimals--;
 				}
+
+				iter++;
 
 				//Store period unit
 				switch(command_[iter]) {
@@ -210,7 +207,7 @@ void processCMD(char* command_) {
 				default:
 					break;
 				}
-			} else if(command_[2] == STATE_LOW) {
+			} else {
 				//Store state
 				oscilloscopeCh1_.state_ = STATE_OFF;
 
@@ -220,17 +217,17 @@ void processCMD(char* command_) {
 			}
 
 			//Reset vars
-			iter++;
+			iter = 0;
 			decimals = 0;
 			decimalFlag = false;
-
-		} else if(command_[1] == '2') {
+			break;
+		case '2':
 			if(command_[2] == STATE_HIGH) {
 				//Store state
 				oscilloscopeCh2_.state_ = STATE_ON;
 
 				//Store period as integer
-				for(int iter = 3; command_[iter] != 'U'; iter++) {
+				for(iter = 3; command_[iter] != 'U'; iter++) {
 					if(command_[iter] != '.') {
 						if(decimalFlag) decimals++;
 						oscilloscopeCh2_.period_ = (oscilloscopeCh2_.period_ * 10) + parseFloat(command_[iter]);
@@ -244,6 +241,8 @@ void processCMD(char* command_) {
 					oscilloscopeCh2_.period_ = oscilloscopeCh2_.period_ / 10;
 					decimals--;
 				}
+
+				iter++;
 
 				//Store period unit
 				switch(command_[iter]) {
@@ -259,7 +258,7 @@ void processCMD(char* command_) {
 				default:
 					break;
 				}
-			} else if(command_[2] == STATE_LOW) {
+			} else {
 				//Store state
 				oscilloscopeCh2_.state_ = STATE_OFF;
 
@@ -269,9 +268,12 @@ void processCMD(char* command_) {
 			}
 
 			//Reset vars
-			iter++;
+			iter = 0;
 			decimals = 0;
 			decimalFlag = false;
+			break;
+		default:
+			break;
 		}
 
 		break;
@@ -316,28 +318,18 @@ void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceType
 
 		//Start multimeter
 		if(mul_.source_ == 1) {
-			//Get ADC value
-			multimeterVoltVal_ = getADCvalue();
+			//Get ADC value and send
+			sampleAndSend(150);
 		} else {
 
 		}
-
-		//Send value at approximately 5Hz
-		sendFormat("%d!", multimeterVoltVal_);
-		delayMS(150);
 
 	} else if(osc1_.state_ == STATE_ON || osc2_.state_ == STATE_ON) {
 		//Stop any running services
 		killMultimeter();
 
-		for(int iter = 0; iter < 1000; iter++) {
-			oscVal_[iter] = getADCvalue();
-		}
-
-		for(int iter = 0; iter < 1000; iter++) {
-			sendFormat("%d!", oscVal_[iter]);
-			delayMS(100);
-		}
+		//Sample and send
+		sampleAndSend(10);
 
 
 	} else if(waveGenerator_.isWaiting_) {
@@ -414,6 +406,15 @@ void killOscilloscope(void) {
 
 void killMultimeter(void) {
 	multimeter_.state_ = STATE_OFF;
+}
+
+void sampleAndSend(uint32_t delay) {
+	//Sample one value
+	adcRaw_ = getADCvalue();
+
+	//Send value
+	sendFormat("%d!", adcRaw_);
+	delayMS(delay);
 }
 
 

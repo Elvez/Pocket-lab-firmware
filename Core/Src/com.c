@@ -42,12 +42,22 @@ void sendNACK(void) {
 }
 
 void sendFormat(char* format, ...) {
+	//Message
 	char message[20];
+
+	//Arguments list
 	va_list args;
+
+	//Start argument parsing
 	va_start(args, format);
+
+	//Print to string
 	vsprintf(message, format, args);
 
-	HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), HAL_MAX_DELAY);
+	//Check if UART is available, then send.
+	if(HAL_UART_GetState(&huart1) != HAL_UART_STATE_BUSY) {
+		HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), HAL_MAX_DELAY);
+	}
 	va_end(args);
 }
 
