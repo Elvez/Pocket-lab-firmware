@@ -352,12 +352,26 @@ void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceType
 
 		//Send OSC1 values
 		if(osc1_.state_ == STATE_ON) {
+			//Set channel
+			selectChannel(OSC_CH1);
 
+			//Sample and send
+			sampleAndSend(OSC_CH1);
+
+			//Delay in Microseconds
+			delayMS(100);
 		}
 
 		//Send OSC2 values
 		if(osc2_.state_ == STATE_ON) {
+			//Set channel
+			selectChannel(OSC_CH2);
 
+			//Sample and send
+			sampleAndSend(OSC_CH2);
+
+			//Delay in Microseconds
+			delayMS(100);
 		}
 
 
