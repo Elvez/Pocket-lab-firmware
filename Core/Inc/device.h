@@ -13,10 +13,19 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "stdarg.h"
+#include "main.h"
 #include "debugger.h"
 
 //ADC typedef extern
 extern ADC_HandleTypeDef hadc1;
+
+//Channel enum
+typedef enum {
+	MUL_CH1,
+	MUL_CH2,
+	OSC_CH1,
+	OSC_CH2
+} ChannelTypedef;
 
 /*
  * Process command buffer.
@@ -118,5 +127,15 @@ void killMultimeter(void);
  * @return : none
  */
 void sampleAndSend(uint32_t delay);
+
+/*
+ * Change ADC channel
+ *
+ * Change ADC channel to another channel for sampling
+ *
+ * @params : Channel(Channel typedef)
+ * @return : none
+ */
+void selectChannel(ChannelTypedef channel);
 
 #endif /* INC_DEVICE_H_ */

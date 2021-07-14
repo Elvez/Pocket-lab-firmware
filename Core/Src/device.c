@@ -319,9 +319,12 @@ void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceType
 		//Start multimeter
 		if(mul_.source_ == 1) {
 			//Get ADC value and send
+			selectChannel(MUL_CH1);
 			sampleAndSend(150);
-		} else {
-
+		} else if(mul_.source_ == 2){
+			//Get ADC value and send
+			selectChannel(MUL_CH2);
+			sampleAndSend(150);
 		}
 
 	} else if(osc1_.state_ == STATE_ON || osc2_.state_ == STATE_ON) {
@@ -363,6 +366,10 @@ uint16_t getADCvalue(void) {
 
 	//Get value and return
 	value_ = HAL_ADC_GetValue(&hadc1);
+
+	//Stop ADC
+	HAL_ADC_Stop(&hadc1);
+
 	return value_;
 }
 
@@ -415,6 +422,65 @@ void sampleAndSend(uint32_t delay) {
 	//Send value
 	sendFormat("%d!", adcRaw_);
 	delayMS(delay);
+}
+
+void selectChannel(ChannelTypedef channel) {
+	//ADC config
+	ADC_ChannelConfTypeDef sConfig = {0};
+
+	//Set chanel
+	switch(channel) {
+	case MUL_CH1:
+		//Set ADC channel to multimeter channel 1
+		sConfig.Channel = ADC_CHANNEL_0;
+		sConfig.Rank = 1;
+		sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
+
+		if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+		{
+			Error_Handler();
+		}
+
+		break;
+	case MUL_CH2:
+		//Set ADC channel to multimeter channel 2
+		sConfig.Channel = ADC_CHANNEL_1;
+		sConfig.Rank = 1;
+		sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
+
+		if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+		{
+			Error_Handler();
+		}
+
+		break;
+	case OSC_CH1:
+		//Set ADC channel to oscilloscope channel 1
+		sConfig.Channel = ADC_CHANNEL_5;
+		sConfig.Rank = 1;
+		sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
+
+		if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+		{
+			Error_Handler();
+		}
+
+		break;
+	case OSC_CH2:
+		//Set ADC channel to oscilloscope channel 2
+		sConfig.Channel = ADC_CHANNEL_7;
+		sConfig.Rank = 1;
+		sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
+
+		if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+		{
+			Error_Handler();
+		}
+
+		break;
+	default:
+		break;
+	}
 }
 
 
