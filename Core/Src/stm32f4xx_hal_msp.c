@@ -197,16 +197,16 @@ void HAL_CRC_MspDeInit(CRC_HandleTypeDef* hcrc)
 */
 void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 {
-  if(htim_base->Instance==TIM9)
+  if(htim_base->Instance==TIM1)
   {
-  /* USER CODE BEGIN TIM9_MspInit 0 */
+  /* USER CODE BEGIN TIM1_MspInit 0 */
 
-  /* USER CODE END TIM9_MspInit 0 */
+  /* USER CODE END TIM1_MspInit 0 */
     /* Peripheral clock enable */
-    __HAL_RCC_TIM9_CLK_ENABLE();
-  /* USER CODE BEGIN TIM9_MspInit 1 */
+    __HAL_RCC_TIM1_CLK_ENABLE();
+  /* USER CODE BEGIN TIM1_MspInit 1 */
 
-  /* USER CODE END TIM9_MspInit 1 */
+  /* USER CODE END TIM1_MspInit 1 */
   }
 
 }
@@ -219,16 +219,16 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
 */
 void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* htim_base)
 {
-  if(htim_base->Instance==TIM9)
+  if(htim_base->Instance==TIM1)
   {
-  /* USER CODE BEGIN TIM9_MspDeInit 0 */
+  /* USER CODE BEGIN TIM1_MspDeInit 0 */
 
-  /* USER CODE END TIM9_MspDeInit 0 */
+  /* USER CODE END TIM1_MspDeInit 0 */
     /* Peripheral clock disable */
-    __HAL_RCC_TIM9_CLK_DISABLE();
-  /* USER CODE BEGIN TIM9_MspDeInit 1 */
+    __HAL_RCC_TIM1_CLK_DISABLE();
+  /* USER CODE BEGIN TIM1_MspDeInit 1 */
 
-  /* USER CODE END TIM9_MspDeInit 1 */
+  /* USER CODE END TIM1_MspDeInit 1 */
   }
 
 }

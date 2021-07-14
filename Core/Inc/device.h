@@ -18,7 +18,7 @@
 
 //ADC typedef extern
 extern ADC_HandleTypeDef hadc1;
-extern TIM_HandleTypeDef htim9;
+extern TIM_HandleTypeDef htim1;
 
 //Channel enum
 typedef enum {

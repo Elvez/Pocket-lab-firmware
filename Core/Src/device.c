@@ -371,7 +371,7 @@ void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceType
 			sampleAndSend(OSC_CH2);
 
 			//Delay in Microseconds
-			delayMS(150);
+			delayMS(100);
 		}
 
 
@@ -391,10 +391,6 @@ void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceType
 		//Free device
 		isWaitingPWM = false;
 	}
-}
-
-void delayMS(uint32_t time) {
-	HAL_Delay(time);
 }
 
 uint16_t getADCvalue(void) {
@@ -548,15 +544,19 @@ void selectChannel(ChannelTypedef channel) {
 	}
 }
 
+void delayMS(uint32_t time) {
+	HAL_Delay(time);
+}
+
 void delayNS(uint16_t time) {
 	//Delay cannot be less than 10ns
 	if(time < 10) time = 10;
 
 	//Set timer counter to 0
-	__HAL_TIM_SET_COUNTER(&htim9, 0);
+	__HAL_TIM_SET_COUNTER(&htim1, 0);
 
 	//Delay
-	while(__HAL_TIM_GET_COUNTER(&htim9) < time);
+	while(__HAL_TIM_GET_COUNTER(&htim1) < time);
 }
 
 void delayUS(uint32_t time) {
