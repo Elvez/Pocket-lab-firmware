@@ -48,6 +48,8 @@ ADC_HandleTypeDef hadc1;
 
 CRC_HandleTypeDef hcrc;
 
+TIM_HandleTypeDef htim9;
+
 UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
 DMA_HandleTypeDef hdma_usart1_rx;
@@ -71,6 +73,7 @@ static void MX_USART1_UART_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_CRC_Init(void);
 static void MX_ADC1_Init(void);
+static void MX_TIM9_Init(void);
 /* USER CODE BEGIN PFP */
 void initDevices(void);
 /* USER CODE END PFP */
@@ -114,7 +117,9 @@ int main(void)
   MX_USART2_UART_Init();
   MX_CRC_Init();
   MX_ADC1_Init();
+  MX_TIM9_Init();
   /* USER CODE BEGIN 2 */
+  HAL_TIM_Base_Start(&htim9);
   HAL_UART_Receive_DMA(&huart1, (uint8_t*)commandBuffer, 20);
   /* USER CODE END 2 */
 
@@ -191,6 +196,8 @@ static void MX_ADC1_Init(void)
 
   /* USER CODE END ADC1_Init 0 */
 
+  //ADC_ChannelConfTypeDef sConfig = {0};
+
   /* USER CODE BEGIN ADC1_Init 1 */
 
   /* USER CODE END ADC1_Init 1 */
@@ -212,8 +219,8 @@ static void MX_ADC1_Init(void)
   {
     Error_Handler();
   }
-//  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
-//  */
+  /** Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
+  */
 //  sConfig.Channel = ADC_CHANNEL_0;
 //  sConfig.Rank = 1;
 //  sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
@@ -274,6 +281,44 @@ static void MX_CRC_Init(void)
   /* USER CODE BEGIN CRC_Init 2 */
 
   /* USER CODE END CRC_Init 2 */
+
+}
+
+/**
+  * @brief TIM9 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM9_Init(void)
+{
+
+  /* USER CODE BEGIN TIM9_Init 0 */
+
+  /* USER CODE END TIM9_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+
+  /* USER CODE BEGIN TIM9_Init 1 */
+
+  /* USER CODE END TIM9_Init 1 */
+  htim9.Instance = TIM9;
+  htim9.Init.Prescaler = 0;
+  htim9.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim9.Init.Period = 65535;
+  htim9.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim9.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim9) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim9, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM9_Init 2 */
+
+  /* USER CODE END TIM9_Init 2 */
 
 }
 

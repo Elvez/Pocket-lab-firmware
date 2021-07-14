@@ -18,6 +18,7 @@
 
 //ADC typedef extern
 extern ADC_HandleTypeDef hadc1;
+extern TIM_HandleTypeDef htim9;
 
 //Channel enum
 typedef enum {
@@ -47,16 +48,6 @@ void processCMD(char* command_);
  */
 void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceTypedef ps_,
 		OscilloscopeTypedef osc1_, OscilloscopeTypedef osc2_, PWMTypedef* pwm_);
-
-/*
- * Millisecond delay
- *
- * Gives a millisecond delay
- *
- * @params : Delay(uint32_t)
- * @return : none
- */
-void delayMS(uint32_t time);
 
 /*
  * Get ADC value
@@ -137,5 +128,36 @@ void sampleAndSend(ChannelTypedef channel);
  * @return : none
  */
 void selectChannel(ChannelTypedef channel);
+
+/*
+ * Millisecond delay
+ *
+ * Gives a delay for given milliseconds
+ *
+ * @params : Delay(uint32_t)
+ * @return : none
+ */
+void delayMS(uint32_t time);
+
+/*
+ * Delay in nanoseconds
+ *
+ * Gives a delay in given nanoseconds
+ * Minumum delay is 10ns
+ *
+ * @params : Delay(uint16_t)
+ * @return : none
+ */
+void delayNS(uint16_t time);
+
+/*
+ * Delay in microseconds
+ *
+ * Gives a delay in given microseconds
+ *
+ * @params : Delay(uint16_t)
+ * @return : none
+ */
+void delayUS(uint32_t time);
 
 #endif /* INC_DEVICE_H_ */

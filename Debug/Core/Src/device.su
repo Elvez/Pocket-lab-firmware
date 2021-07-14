@@ -9,3 +9,5 @@ device.c:452:6:killOscilloscope	4	static
 device.c:457:6:killMultimeter	4	static
 device.c:461:6:sampleAndSend	16	static
 device.c:492:6:selectChannel	32	static
+device.c:551:6:delayNS	16	static
+device.c:562:6:delayUS	24	static
