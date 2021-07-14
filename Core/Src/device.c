@@ -17,6 +17,9 @@ extern PWMTypedef pwmGenerator_[];
 //Multimeter voltmeter value
 uint16_t adcRaw_ = 0;
 
+//PWM command status
+bool isWaitingPWM = false;
+
 
 void processCMD(char* command_) {
 	//Command buffer's first character.
@@ -292,10 +295,16 @@ void processCMD(char* command_) {
 				pwmGenerator_[pwmSource].dutyCycle_ = (pwmGenerator_[pwmSource].dutyCycle_ * 10)
 														+ parseInt(command_[iter]);
 			}
+
+			//Set pwm state
+			isWaitingPWM = true;
 		} else if(command_[2] == STATE_LOW) {
 			pwmGenerator_[pwmSource].state_ = STATE_OFF;
 
 			pwmGenerator_[pwmSource].dutyCycle_ = 0;
+
+			//Set pwm state
+			isWaitingPWM = true;
 		} else {
 			debug("Bad command\n\r");
 		}
@@ -318,21 +327,38 @@ void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceType
 
 		//Start multimeter
 		if(mul_.source_ == 1) {
-			//Get ADC value and send
+			//Set channel
 			selectChannel(MUL_CH1);
-			sampleAndSend(150);
+
+			//Sample a value and send
+			sampleAndSend(MUL_CH1);
+
+			//Delay in milliseconds
+			delayMS(150);
 		} else if(mul_.source_ == 2){
-			//Get ADC value and send
+			//Set channel
 			selectChannel(MUL_CH2);
-			sampleAndSend(150);
+
+			//Sample a value and send
+			sampleAndSend(MUL_CH2);
+
+			//Delay in milliseconds
+			delayMS(150);
 		}
 
 	} else if(osc1_.state_ == STATE_ON || osc2_.state_ == STATE_ON) {
 		//Stop any running services
 		killMultimeter();
 
-		//Sample and send
-		sampleAndSend(10);
+		//Send OSC1 values
+		if(osc1_.state_ == STATE_ON) {
+
+		}
+
+		//Send OSC2 values
+		if(osc2_.state_ == STATE_ON) {
+
+		}
 
 
 	} else if(waveGenerator_.isWaiting_) {
@@ -345,8 +371,11 @@ void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceType
 
 		//Free device
 		powerSource_.isWaiting_ = false;
-	} else {
+	} else if(isWaitingPWM){
+		//TODO: Turn on PWM
 
+		//Free device
+		isWaitingPWM = false;
 	}
 }
 
@@ -415,13 +444,35 @@ void killMultimeter(void) {
 	multimeter_.state_ = STATE_OFF;
 }
 
-void sampleAndSend(uint32_t delay) {
+void sampleAndSend(ChannelTypedef channel) {
 	//Sample one value
 	adcRaw_ = getADCvalue();
 
-	//Send value
-	sendFormat("%d!", adcRaw_);
-	delayMS(delay);
+	//Send formatted packet
+	switch(channel) {
+	case MUL_CH1:
+		//Send value
+		sendFormat("%dM", adcRaw_);
+
+		break;
+	case MUL_CH2:
+		//Send value
+		sendFormat("%dM", adcRaw_);
+
+		break;
+	case OSC_CH1:
+		//Send value, 'A' for oscilloscope channel 1
+		sendFormat("%dA", adcRaw_);
+
+		break;
+	case OSC_CH2:
+		//Send value, 'B' for oscilloscope channel 2
+		sendFormat("%dB", adcRaw_);
+
+		break;
+	default:
+		break;
+	}
 }
 
 void selectChannel(ChannelTypedef channel) {

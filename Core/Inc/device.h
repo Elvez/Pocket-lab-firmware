@@ -126,7 +126,7 @@ void killMultimeter(void);
  * @params : DelayMilliseconds(uint32_t)
  * @return : none
  */
-void sampleAndSend(uint32_t delay);
+void sampleAndSend(ChannelTypedef channel);
 
 /*
  * Change ADC channel
