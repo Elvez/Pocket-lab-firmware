@@ -1506,8 +1506,8 @@ void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceType
  8000c4e:	f000 f90d 	bl	8000e6c <sampleAndSend>
 
 			//Delay in milliseconds
-			delayMS(150);
- 8000c52:	2096      	movs	r0, #150	; 0x96
+			delayMS(50);
+ 8000c52:	2032      	movs	r0, #50	; 0x32
  8000c54:	f000 f9c0 	bl	8000fd8 <delayMS>
 		//TODO: Turn on PWM
 
@@ -1550,8 +1550,8 @@ void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceType
 			sampleAndSend(OSC_CH1);
  8000c96:	2002      	movs	r0, #2
  8000c98:	f000 f8e8 	bl	8000e6c <sampleAndSend>
-			delayMS(100);
- 8000c9c:	2064      	movs	r0, #100	; 0x64
+			delayMS(150);
+ 8000c9c:	2096      	movs	r0, #150	; 0x96
  8000c9e:	f000 f99b 	bl	8000fd8 <delayMS>
 		if(osc2_.state_ == STATE_ON) {
  8000ca2:	f897 303c 	ldrb.w	r3, [r7, #60]	; 0x3c

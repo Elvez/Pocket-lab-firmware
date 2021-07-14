@@ -334,7 +334,7 @@ void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceType
 			sampleAndSend(MUL_CH1);
 
 			//Delay in milliseconds
-			delayMS(150);
+			delayMS(50);
 		} else if(mul_.source_ == 2){
 			//Set channel
 			selectChannel(MUL_CH2);
@@ -359,7 +359,7 @@ void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceType
 			sampleAndSend(OSC_CH1);
 
 			//Delay in Microseconds
-			delayMS(100);
+			delayMS(150);
 		}
 
 		//Send OSC2 values
