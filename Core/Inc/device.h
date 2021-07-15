@@ -19,7 +19,14 @@
 
 //ADC typedef extern
 extern ADC_HandleTypeDef hadc1;
+
+//Timer typedef extern
 extern TIM_HandleTypeDef htim1;
+extern TIM_HandleTypeDef htim2;
+extern TIM_HandleTypeDef htim3;
+extern TIM_HandleTypeDef htim4;
+extern TIM_HandleTypeDef htim10;
+extern TIM_HandleTypeDef htim11;
 
 //Channel enum
 typedef enum {
@@ -28,6 +35,16 @@ typedef enum {
 	OSC_CH1,
 	OSC_CH2
 } ChannelTypedef;
+
+//PWM channel enum
+typedef enum {
+	PWM1,
+	PWM2,
+	PWM3,
+	PWM4,
+	PWM5,
+	PWM6
+} PWMChannelTypedef;
 
 /*
  * Process command buffer.
@@ -130,4 +147,23 @@ void sampleAndSend(ChannelTypedef channel);
  */
 void selectChannel(ChannelTypedef channel);
 
+/*
+ * Start PWM
+ *
+ * Start the pwm output on given channel with given duty cycle
+ *
+ * @params : Channel(PWMChannelTypedef), Duty cyclt(int)
+ * @return : none
+ */
+void startPWM(PWMChannelTypedef channel, int dutyCycle);
+
+/*
+ * Stop PWM
+ *
+ * Stop PWM output on given channel
+ *
+ * @params : Channel(PWMChannelTypedef)
+ * @return : none
+ */
+void stopPWM(PWMChannelTypedef channel);
 #endif /* INC_DEVICE_H_ */

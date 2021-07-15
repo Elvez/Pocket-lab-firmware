@@ -416,8 +416,14 @@ void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceType
 		//Free device
 		powerSource_.isWaiting_ = false;
 	} else if(isWaitingPWM){
-		//TODO: Turn on PWM
-
+		//Turn on PWM
+		for(int iter = 0; iter < 5; iter ++) {
+			if(pwm_[iter].state_ == STATE_ON) {
+				startPWM(iter + 1, pwm_[iter].dutyCycle_);
+			} else {
+				stopPWM(iter + 1);
+			}
+		}
 		//Free device
 		isWaitingPWM = false;
 	}
@@ -568,6 +574,90 @@ void selectChannel(ChannelTypedef channel) {
 			Error_Handler();
 		}
 
+		break;
+	default:
+		break;
+	}
+}
+
+void startPWM(PWMChannelTypedef channel, int dutyCycle) {
+	//Duty cycle is in range 0-100
+	if(dutyCycle < 0) dutyCycle = 0;
+	if(dutyCycle > 100) dutyCycle = 100;
+
+	switch(channel) {
+	case PWM1:
+		//Set duty cycle
+		htim1.Instance->CCR1 = dutyCycle;
+
+		//Start PWM
+		HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+		break;
+	case PWM2:
+		//Set duty cycle
+		htim2.Instance->CCR1 = dutyCycle;
+
+		//Start PWM
+		HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
+		break;
+	case PWM3:
+		//Set duty cycle
+		htim3.Instance->CCR1 = dutyCycle;
+
+		//Start PWM
+		HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
+		break;
+	case PWM4:
+		//Set duty cycle
+		htim4.Instance->CCR1 = dutyCycle;
+
+		//Start PWM
+		HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
+		break;
+	case PWM5:
+		//Set duty cycle
+		htim10.Instance->CCR1 = dutyCycle;
+
+		//Start PWM
+		HAL_TIM_PWM_Start(&htim10, TIM_CHANNEL_1);
+		break;
+	case PWM6:
+		//Set duty cycle
+		htim11.Instance->CCR1 = dutyCycle;
+
+		//Start PWM
+		HAL_TIM_PWM_Start(&htim11, TIM_CHANNEL_1);
+		break;
+	default:
+		break;
+	}
+}
+
+void stopPWM(PWMChannelTypedef channel) {
+	switch(channel) {
+	case PWM1:
+		//Stop PWM
+		HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
+		break;
+	case PWM2:
+		//Stop PWM
+		HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_1);
+		break;
+	case PWM3:
+		//Stop PWM
+		HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_1);
+		break;
+	case PWM4:
+		//Stop PWM
+		HAL_TIM_PWM_Stop(&htim4, TIM_CHANNEL_1);
+		break;
+	case PWM5:
+		//Stop PWM
+		HAL_TIM_PWM_Stop(&htim10, TIM_CHANNEL_1);
+		break;
+	case PWM6:
+		//Stop PWM
+		HAL_TIM_PWM_Stop(&htim11, TIM_CHANNEL_1);
 		break;
 	default:
 		break;

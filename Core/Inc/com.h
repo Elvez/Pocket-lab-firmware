@@ -94,7 +94,6 @@ typedef struct {
 typedef struct {
 	StateTypedef state_;
 	int dutyCycle_;
-	bool isWaiting_;
 } PWMTypedef;
 
 /*
