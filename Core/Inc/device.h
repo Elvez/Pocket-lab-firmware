@@ -15,6 +15,7 @@
 #include "stdarg.h"
 #include "main.h"
 #include "debugger.h"
+#include "DWT_Delay.h"
 
 //ADC typedef extern
 extern ADC_HandleTypeDef hadc1;

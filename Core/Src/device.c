@@ -359,7 +359,7 @@ void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceType
 			sampleAndSend(OSC_CH1);
 
 			//Delay in Microseconds
-			delayMS(150);
+			DWT_Delay_ms(100);
 		}
 
 		//Send OSC2 values

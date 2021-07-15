@@ -4,6 +4,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../Core/Src/DWT_Delay.c \
 ../Core/Src/com.c \
 ../Core/Src/debugger.c \
 ../Core/Src/device.c \
@@ -15,6 +16,7 @@ C_SRCS += \
 ../Core/Src/system_stm32f4xx.c 
 
 C_DEPS += \
+./Core/Src/DWT_Delay.d \
 ./Core/Src/com.d \
 ./Core/Src/debugger.d \
 ./Core/Src/device.d \
@@ -26,6 +28,7 @@ C_DEPS += \
 ./Core/Src/system_stm32f4xx.d 
 
 OBJS += \
+./Core/Src/DWT_Delay.o \
 ./Core/Src/com.o \
 ./Core/Src/debugger.o \
 ./Core/Src/device.o \
@@ -38,6 +41,8 @@ OBJS += \
 
 
 # Each subdirectory must supply rules for building sources it contributes
+Core/Src/DWT_Delay.o: ../Core/Src/DWT_Delay.c
+	arm-none-eabi-gcc "$<" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F411xE -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/DWT_Delay.d" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@"
 Core/Src/com.o: ../Core/Src/com.c
 	arm-none-eabi-gcc "$<" -mcpu=cortex-m4 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F411xE -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/com.d" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@"
 Core/Src/debugger.o: ../Core/Src/debugger.c

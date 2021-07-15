@@ -1,3 +1,4 @@
+"Core/Src/DWT_Delay.o"
 "Core/Src/com.o"
 "Core/Src/debugger.o"
 "Core/Src/device.o"

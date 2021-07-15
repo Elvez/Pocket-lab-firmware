@@ -27,6 +27,7 @@
 #include "stdbool.h"
 #include "device.h"
 #include "string.h"
+#include "DWT_Delay.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -100,7 +101,7 @@ int main(void)
 
   /* USER CODE BEGIN Init */
   initDevices();
-
+  DWT_Delay_Init();
   /* USER CODE END Init */
 
   /* Configure the system clock */
