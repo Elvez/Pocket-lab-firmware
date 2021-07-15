@@ -358,8 +358,23 @@ void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceType
 			//Sample and send
 			sampleAndSend(OSC_CH1);
 
-			//Delay in Microseconds
-			delayMS(100);
+			//Sampling delay
+			switch(osc1_.unit_) {
+			case MICRO:
+				//Give microseconds delay
+				delayUS((uint32_t)(osc1_.period_ / 1000));
+				break;
+			case MILLI:
+				//Give millisecond delay
+				delayUS((uint32_t)(osc1_.period_));
+				break;
+			case SECOND:
+				//Give seconds delay
+				delayMS((uint32_t)(osc1_.period_));
+				break;
+			default:
+				break;
+			}
 		}
 
 		//Send OSC2 values
@@ -370,8 +385,23 @@ void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceType
 			//Sample and send
 			sampleAndSend(OSC_CH2);
 
-			//Delay in Microseconds
-			delayMS(100);
+			//Sampling delay
+			switch(osc2_.unit_) {
+			case MICRO:
+				//Give microseconds delay
+				delayUS((uint32_t)(osc2_.period_ / 1000));
+				break;
+			case MILLI:
+				//Give millisecond delay
+				delayUS((uint32_t)(osc2_.period_));
+				break;
+			case SECOND:
+				//Give seconds delay
+				delayMS((uint32_t)(osc2_.period_));
+				break;
+			default:
+				break;
+			}
 		}
 
 
