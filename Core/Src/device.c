@@ -290,6 +290,9 @@ void processCMD(char* command_) {
 		if(command_[2] == STATE_HIGH) {
 			pwmGenerator_[pwmSource].state_ = STATE_ON;
 
+			//Reset duty cycle
+			pwmGenerator_[pwmSource].dutyCycle_ = 0;
+
 			//Parse duty cycle
 			for(int iter = 3; command_[iter] != '-'; iter++) {
 				pwmGenerator_[pwmSource].dutyCycle_ = (pwmGenerator_[pwmSource].dutyCycle_ * 10)
@@ -419,9 +422,9 @@ void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceType
 		//Turn on PWM
 		for(int iter = 0; iter < 5; iter ++) {
 			if(pwm_[iter].state_ == STATE_ON) {
-				startPWM(iter + 1, pwm_[iter].dutyCycle_);
+				startPWM(iter, pwm_[iter].dutyCycle_);
 			} else {
-				stopPWM(iter + 1);
+				stopPWM(iter);
 			}
 		}
 		//Free device
@@ -638,26 +641,44 @@ void stopPWM(PWMChannelTypedef channel) {
 	case PWM1:
 		//Stop PWM
 		HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
+
+		//Set PWM value 0
+		htim1.Instance->CCR1 = 0;
 		break;
 	case PWM2:
 		//Stop PWM
 		HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_1);
+
+		//Set PWM value 0
+		htim2.Instance->CCR1 = 0;
 		break;
 	case PWM3:
 		//Stop PWM
 		HAL_TIM_PWM_Stop(&htim3, TIM_CHANNEL_1);
+
+		//Set PWM value 0
+		htim3.Instance->CCR1 = 0;
 		break;
 	case PWM4:
 		//Stop PWM
 		HAL_TIM_PWM_Stop(&htim4, TIM_CHANNEL_1);
+
+		//Set PWM value 0
+		htim4.Instance->CCR1 = 0;
 		break;
 	case PWM5:
 		//Stop PWM
 		HAL_TIM_PWM_Stop(&htim10, TIM_CHANNEL_1);
+
+		//Set PWM value 0
+		htim10.Instance->CCR1 = 0;
 		break;
 	case PWM6:
 		//Stop PWM
 		HAL_TIM_PWM_Stop(&htim11, TIM_CHANNEL_1);
+
+		//Set PWM value 0
+		htim11.Instance->CCR1 = 0;
 		break;
 	default:
 		break;
