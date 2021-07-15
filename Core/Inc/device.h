@@ -130,35 +130,4 @@ void sampleAndSend(ChannelTypedef channel);
  */
 void selectChannel(ChannelTypedef channel);
 
-/*
- * Millisecond delay
- *
- * Gives a delay for given milliseconds
- *
- * @params : Delay(uint32_t)
- * @return : none
- */
-void delayMS(uint32_t time);
-
-/*
- * Delay in nanoseconds
- *
- * Gives a delay in given nanoseconds
- * Minumum delay is 10ns
- *
- * @params : Delay(uint16_t)
- * @return : none
- */
-void delayNS(uint16_t time);
-
-/*
- * Delay in microseconds
- *
- * Gives a delay in given microseconds
- *
- * @params : Delay(uint16_t)
- * @return : none
- */
-void delayUS(uint32_t time);
-
 #endif /* INC_DEVICE_H_ */

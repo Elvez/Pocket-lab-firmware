@@ -1,4 +1,4 @@
-DWT_Delay.h:27:22:DWT_Delay_ms	24	static
+DWT_Delay.h:27:22:delayMS	24	static
 device.c:24:6:processCMD	56	static
 device.c:321:6:runDevice	16	static
 device.c:396:10:getADCvalue	16	static
@@ -9,6 +9,3 @@ device.c:448:6:killOscilloscope	4	static
 device.c:453:6:killMultimeter	4	static
 device.c:457:6:sampleAndSend	16	static
 device.c:488:6:selectChannel	32	static
-device.c:547:6:delayMS	16	static
-device.c:551:6:delayNS	16	static
-device.c:562:6:delayUS	24	static

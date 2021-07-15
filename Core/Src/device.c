@@ -359,7 +359,7 @@ void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceType
 			sampleAndSend(OSC_CH1);
 
 			//Delay in Microseconds
-			DWT_Delay_ms(100);
+			delayMS(100);
 		}
 
 		//Send OSC2 values
@@ -541,32 +541,6 @@ void selectChannel(ChannelTypedef channel) {
 		break;
 	default:
 		break;
-	}
-}
-
-void delayMS(uint32_t time) {
-	HAL_Delay(time);
-}
-
-void delayNS(uint16_t time) {
-	//Delay cannot be less than 10ns
-	if(time < 10) time = 10;
-
-	//Set timer counter to 0
-	__HAL_TIM_SET_COUNTER(&htim1, 0);
-
-	//Delay
-	while(__HAL_TIM_GET_COUNTER(&htim1) < time);
-}
-
-void delayUS(uint32_t time) {
-	//Loop iterator
-	int iter = 0;
-
-	//Give 1000 nanosecond delay for every microsecond
-	while(iter < time) {
-		delayNS(1000);
-		iter++;
 	}
 }
 
