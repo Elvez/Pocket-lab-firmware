@@ -1,0 +1,5 @@
+com.c:12:6:sendPacket	0	static
+com.c:17:6:receivePacket	0	static
+com.c:22:6:sendACK	16	static
+com.c:36:6:sendNACK	16	static
+com.c:44:6:sendFormat	32	static

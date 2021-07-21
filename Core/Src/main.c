@@ -67,7 +67,6 @@ OscilloscopeTypedef oscilloscopeCh1_;
 OscilloscopeTypedef oscilloscopeCh2_;
 MultimeterTypedef multimeter_;
 WaveGeneratorTypedef waveGenerator_;
-PowerSourceTypedef powerSource_;
 PWMTypedef pwmGenerator_[5];
 /* USER CODE END PV */
 
@@ -146,7 +145,7 @@ int main(void)
 	  processCMD(commandBuffer);
 	  commandState = FREE;
 	} else if(commandState == FREE) {
-	  runDevice(multimeter_, waveGenerator_, powerSource_, oscilloscopeCh1_, oscilloscopeCh2_, pwmGenerator_);
+	  runDevice(multimeter_, waveGenerator_, oscilloscopeCh1_, oscilloscopeCh2_, pwmGenerator_);
 	}
     /* USER CODE END WHILE */
 
@@ -781,18 +780,9 @@ void initDevices(void) {
 	waveGenerator_.wave_ = SINE;
 	waveGenerator_.isWaiting_ = false;
 
-	powerSource_.source_ = 1;
-	powerSource_.state_ = STATE_OFF;
-	powerSource_.value_ = 0;
-	powerSource_.isWaiting_ = false;
-
 	oscilloscopeCh1_.state_ = STATE_OFF;
-	oscilloscopeCh1_.period_ = 0;
-	oscilloscopeCh1_.unit_ = MICRO;
 
 	oscilloscopeCh2_.state_ = STATE_OFF;
-	oscilloscopeCh2_.period_ = 0;
-	oscilloscopeCh2_.unit_ = MICRO;
 
 	for(int iter = 0; iter < 5; iter++) {
 		pwmGenerator_[iter].dutyCycle_ = 0;

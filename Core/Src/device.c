@@ -8,7 +8,6 @@
 
 //Device typedefs
 extern MultimeterTypedef multimeter_;
-extern PowerSourceTypedef powerSource_;
 extern WaveGeneratorTypedef waveGenerator_;
 extern OscilloscopeTypedef oscilloscopeCh1_;
 extern OscilloscopeTypedef oscilloscopeCh2_;
@@ -130,45 +129,6 @@ void processCMD(char* command_) {
 
 		break;
 
-	//Power source command
-	case POWER_SOURCE:
-		//Store source
-		powerSource_.source_ = parseInt(command_[1]);
-
-		//Store state
-		if(command_[2] == STATE_HIGH) {
-			powerSource_.state_ = STATE_ON;
-
-			//Store amplitude as integer
-			for(iter = 3; command_[iter] != '-'; iter++) {
-				if(command_[iter] != '.') {
-					if(decimalFlag) decimals++;
-					powerSource_.value_ = (powerSource_.value_ * 10) + parseFloat(command_[iter]);
-				} else {
-					decimalFlag = true;
-				}
-			}
-
-			//Convert integer to float
-			while(decimals > 0) {
-				powerSource_.value_ = powerSource_.value_ / 10;
-				decimals--;
-			}
-		} else if(command_[2] == STATE_LOW) {
-			//Store state and reset params
-			powerSource_.state_ = STATE_OFF;
-			resetParams(POWER_SOURCE);
-		} else {
-			debug("Bad command\n\r");
-		}
-
-		//Reset vars
-		decimals = 0;
-		decimalFlag = false;
-		iter = 0;
-
-		break;
-
 	//Oscilloscope command
 	case OSCILLOSCOPE:
 		//Store channel
@@ -177,103 +137,22 @@ void processCMD(char* command_) {
 			if(command_[2] == STATE_HIGH) {
 				//Store state
 				oscilloscopeCh1_.state_ = STATE_ON;
-
-				//Store period as integer
-				for(iter = 3; command_[iter] != 'U'; iter++) {
-					if(command_[iter] != '.') {
-						if(decimalFlag) decimals++;
-						oscilloscopeCh1_.period_ = (oscilloscopeCh1_.period_ * 10) + parseFloat(command_[iter]);
-					} else {
-						decimalFlag = true;
-					}
-				}
-
-				//Convert to float
-				while(decimals > 0) {
-					oscilloscopeCh1_.period_ = oscilloscopeCh1_.period_ / 10;
-					decimals--;
-				}
-
-				iter++;
-
-				//Store period unit
-				switch(command_[iter]) {
-				case '1':
-					oscilloscopeCh1_.unit_ = MICRO;
-					break;
-				case '2':
-					oscilloscopeCh1_.unit_ = MILLI;
-					break;
-				case '3':
-					oscilloscopeCh1_.unit_ = SECOND;
-					break;
-				default:
-					break;
-				}
 			} else {
 				//Store state
 				oscilloscopeCh1_.state_ = STATE_OFF;
-
-				//Reset params
-				oscilloscopeCh1_.period_ = 0;
-				oscilloscopeCh1_.unit_ = MICRO;
 			}
 
-			//Reset vars
-			iter = 0;
-			decimals = 0;
-			decimalFlag = false;
 			break;
 		case '2':
 			if(command_[2] == STATE_HIGH) {
 				//Store state
 				oscilloscopeCh2_.state_ = STATE_ON;
 
-				//Store period as integer
-				for(iter = 3; command_[iter] != 'U'; iter++) {
-					if(command_[iter] != '.') {
-						if(decimalFlag) decimals++;
-						oscilloscopeCh2_.period_ = (oscilloscopeCh2_.period_ * 10) + parseFloat(command_[iter]);
-					} else {
-						decimalFlag = true;
-					}
-				}
-
-				//Convert to float
-				while(decimals > 0) {
-					oscilloscopeCh2_.period_ = oscilloscopeCh2_.period_ / 10;
-					decimals--;
-				}
-
-				iter++;
-
-				//Store period unit
-				switch(command_[iter]) {
-				case '1':
-					oscilloscopeCh2_.unit_ = MICRO;
-					break;
-				case '2':
-					oscilloscopeCh2_.unit_ = MILLI;
-					break;
-				case '3':
-					oscilloscopeCh2_.unit_ = SECOND;
-					break;
-				default:
-					break;
-				}
 			} else {
 				//Store state
 				oscilloscopeCh2_.state_ = STATE_OFF;
-
-				//Reset params
-				oscilloscopeCh2_.period_ = 0;
-				oscilloscopeCh2_.unit_ = MICRO;
 			}
 
-			//Reset vars
-			iter = 0;
-			decimals = 0;
-			decimalFlag = false;
 			break;
 		default:
 			break;
@@ -320,9 +199,8 @@ void processCMD(char* command_) {
 	}
 }
 
-
-void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceTypedef ps_,
-		OscilloscopeTypedef osc1_, OscilloscopeTypedef osc2_, PWMTypedef* pwm_) {
+void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, OscilloscopeTypedef osc1_,
+				OscilloscopeTypedef osc2_, PWMTypedef* pwm_) {
 	//Multimeter turned on
 	if(mul_.state_ == STATE_ON) {
 		//Stop any running service
@@ -337,7 +215,7 @@ void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceType
 			sampleAndSend(MUL_CH1);
 
 			//Delay in milliseconds
-			delayMS(50);
+			delayMS(150);
 		} else if(mul_.source_ == 2){
 			//Set channel
 			selectChannel(MUL_CH2);
@@ -362,22 +240,7 @@ void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceType
 			sampleAndSend(OSC_CH1);
 
 			//Sampling delay
-			switch(osc1_.unit_) {
-			case MICRO:
-				//Give microseconds delay
-				delayUS((uint32_t)(osc1_.period_ / 1000));
-				break;
-			case MILLI:
-				//Give millisecond delay
-				delayUS((uint32_t)(osc1_.period_));
-				break;
-			case SECOND:
-				//Give seconds delay
-				delayMS((uint32_t)(osc1_.period_));
-				break;
-			default:
-				break;
-			}
+			delayMS(1);
 		}
 
 		//Send OSC2 values
@@ -389,22 +252,7 @@ void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceType
 			sampleAndSend(OSC_CH2);
 
 			//Sampling delay
-			switch(osc2_.unit_) {
-			case MICRO:
-				//Give microseconds delay
-				delayUS((uint32_t)(osc2_.period_ / 1000));
-				break;
-			case MILLI:
-				//Give millisecond delay
-				delayUS((uint32_t)(osc2_.period_));
-				break;
-			case SECOND:
-				//Give seconds delay
-				delayMS((uint32_t)(osc2_.period_));
-				break;
-			default:
-				break;
-			}
+			delayMS(1);
 		}
 
 
@@ -413,11 +261,6 @@ void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceType
 
 		//Free device
 		waveGenerator_.isWaiting_ = false;
-	} else if(powerSource_.isWaiting_) {
-		//TODO: Turn on PS
-
-		//Free device
-		powerSource_.isWaiting_ = false;
 	} else if(isWaitingPWM){
 		//Turn on PWM
 		for(int iter = 0; iter < 5; iter ++) {
@@ -463,10 +306,8 @@ void resetParams(char device) {
 	//Set all params to default
 	switch(device) {
 	case OSCILLOSCOPE:
-		oscilloscopeCh1_.period_ = 0;
-		oscilloscopeCh1_.unit_ = MICRO;
-		oscilloscopeCh2_.period_ = 0;
-		oscilloscopeCh2_.unit_ = MICRO;
+		oscilloscopeCh1_.state_ = STATE_OFF;
+		oscilloscopeCh2_.state_ = STATE_OFF;
 		break;
 	case MULTIMETER:
 		multimeter_.source_ = 1;
@@ -476,8 +317,6 @@ void resetParams(char device) {
 		waveGenerator_.amplitude_ = 0;
 		waveGenerator_.period_ = 0;
 		break;
-	case POWER_SOURCE:
-		powerSource_.value_ = 0;
 		break;
 	default :
 		break;

@@ -1,0 +1,13 @@
+DWT_Delay.h:27:22:delayMS	24	static
+device.c:23:6:processCMD	12	static
+device.c:278:10:getADCvalue	16	static
+device.c:297:7:parseFloat	0	static
+device.c:301:5:parseInt	0	static
+device.c:305:6:resetParams	0	static
+device.c:326:6:killOscilloscope	0	static
+device.c:331:6:killMultimeter	0	static
+device.c:335:6:sampleAndSend	8	static
+device.c:366:6:selectChannel	24	static
+device.c:425:6:startPWM	0	static
+device.c:478:6:stopPWM	8	static
+device.c:202:6:runDevice	32	static

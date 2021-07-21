@@ -26,7 +26,6 @@
 
 #define		MULTIMETER			'M'
 #define 	WAVE_GENERATOR		'W'
-#define 	POWER_SOURCE		'P'
 #define		OSCILLOSCOPE		'O'
 #define		PWM_GENERATOR		'G'
 #define		STATE_HIGH			'H'
@@ -65,14 +64,6 @@ typedef struct {
 	uint8_t source_;
 } MultimeterTypedef;
 
-//Power source typedef
-typedef struct {
-	uint8_t source_;
-	StateTypedef state_;
-	float value_;
-	bool isWaiting_;
-} PowerSourceTypedef;
-
 //Wave generator typedef
 typedef struct {
 	uint8_t source_;
@@ -86,8 +77,6 @@ typedef struct {
 //Oscilloscope typedef
 typedef struct {
 	StateTypedef state_;
-	float period_;
-	UnitTypedef unit_;
 } OscilloscopeTypedef;
 
 //PWM typedef

@@ -1,0 +1,3 @@
+debugger.c:11:6:debug	112	static
+debugger.c:29:6:debugSend	16	static
+debugger.c:34:6:blink	24	static

@@ -1623,7 +1623,6 @@ void processCMD(char* command_) {
 
 08000cfc <runDevice>:
 
-
 void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceTypedef ps_,
 		OscilloscopeTypedef osc1_, OscilloscopeTypedef osc2_, PWMTypedef* pwm_) {
  8000cfc:	b084      	sub	sp, #16
@@ -1658,8 +1657,8 @@ void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceType
  8000d26:	f000 f97d 	bl	8001024 <sampleAndSend>
 
 			//Delay in milliseconds
-			delayMS(50);
- 8000d2a:	2032      	movs	r0, #50	; 0x32
+			delayMS(150);
+ 8000d2a:	2096      	movs	r0, #150	; 0x96
  8000d2c:	f7ff fcd0 	bl	80006d0 <delayMS>
 			}
 		}

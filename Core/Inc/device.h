@@ -64,8 +64,8 @@ void processCMD(char* command_);
  * @params : All device_defs
  * @return : none
  */
-void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, PowerSourceTypedef ps_,
-		OscilloscopeTypedef osc1_, OscilloscopeTypedef osc2_, PWMTypedef* pwm_);
+void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, OscilloscopeTypedef osc1_,
+				OscilloscopeTypedef osc2_, PWMTypedef* pwm_);
 
 /*
  * Get ADC value
