@@ -15,7 +15,6 @@
 #include "stdarg.h"
 #include "main.h"
 #include "debugger.h"
-#include "DWT_Delay.h"
 
 //ADC typedef extern
 extern ADC_HandleTypeDef hadc1;
@@ -166,4 +165,14 @@ void startPWM(PWMChannelTypedef channel, int dutyCycle);
  * @return : none
  */
 void stopPWM(PWMChannelTypedef channel);
+
+/*
+ * Delay milli-seconds
+ *
+ * Gives specified delay in milli-seconds
+ *
+ * @params : Delay(int)
+ * @return : none
+ */
+void delayMS(uint32_t delay);
 #endif /* INC_DEVICE_H_ */

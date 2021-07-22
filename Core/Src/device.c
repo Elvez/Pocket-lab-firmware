@@ -524,3 +524,8 @@ void stopPWM(PWMChannelTypedef channel) {
 	}
 }
 
+void delayMS(uint32_t delay) {
+	//Give delay
+	HAL_Delay(delay);
+}
+
