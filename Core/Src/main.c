@@ -771,7 +771,7 @@ void initDevices(void) {
 	multimeter_.source_ = 1;
 	multimeter_.state_ = STATE_OFF;
 
-	waveGenerator_.amplitude_ = 0;
+	waveGenerator_.phase_ = 0;
 	waveGenerator_.period_ = 0;
 	waveGenerator_.source_ = 1;
 	waveGenerator_.state = STATE_OFF;

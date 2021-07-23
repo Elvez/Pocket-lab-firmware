@@ -102,7 +102,7 @@ void processCMD(char* command_) {
 			while(command_[iter] != '-') {
 				if(command_[iter] != '.') {
 					if(decimalFlag) decimals++;
-					waveGenerator_.amplitude_ = (waveGenerator_.amplitude_ * 10) + parseFloat(command_[iter]);
+					waveGenerator_.phase_ = (waveGenerator_.phase_ * 10) + parseFloat(command_[iter]);
 				} else {
 					decimalFlag = true;
 				}
@@ -111,7 +111,7 @@ void processCMD(char* command_) {
 
 			//Convert integer to float
 			while(decimals > 0) {
-				waveGenerator_.amplitude_ = waveGenerator_.amplitude_ / 10;
+				waveGenerator_.phase_ = waveGenerator_.phase_ / 10;
 				decimals--;
 			}
 		} else if(command_[2] == STATE_LOW) {
@@ -314,7 +314,7 @@ void resetParams(char device) {
 		multimeter_.state_ = STATE_OFF;
 		break;
 	case WAVE_GENERATOR:
-		waveGenerator_.amplitude_ = 0;
+		waveGenerator_.phase_ = 0;
 		waveGenerator_.period_ = 0;
 		break;
 		break;
