@@ -69,7 +69,7 @@ typedef struct {
 	uint8_t source_;
 	StateTypedef state;
 	WaveTypedef wave_;
-	float amplitude_;
+	float phase_;
 	float period_;
 	bool isWaiting_;
 } WaveGeneratorTypedef;
