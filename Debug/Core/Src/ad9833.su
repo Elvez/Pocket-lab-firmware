@@ -1,0 +1,4 @@
+ad9833.c:21:6:setWave	16	static
+ad9833.c:55:6:setWaveData	40	static,ignoring_inline_asm
+ad9833.c:117:6:initWG	24	static
+ad9833.c:122:6:resetWG	16	static
