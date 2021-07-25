@@ -15,6 +15,7 @@
 #include "stdarg.h"
 #include "main.h"
 #include "debugger.h"
+#include "ad9833.h"
 
 //ADC typedef extern
 extern ADC_HandleTypeDef hadc1;

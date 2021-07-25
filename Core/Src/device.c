@@ -255,14 +255,19 @@ void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, OscilloscopeTyp
 			delayMS(1);
 		}
 
-
 	} else if(waveGenerator_.isWaiting_) {
-		//TODO: Turn on WG
+		//Run/Stop wave-generator
+		if(waveGenerator_.state == STATE_ON) {
+			initWG(waveGenerator_.wave_, waveGenerator_.period_, waveGenerator_.phase_, waveGenerator_.source_);
+		} else {
+			resetWG(waveGenerator_.source_);
+		}
 
 		//Free device
 		waveGenerator_.isWaiting_ = false;
+
 	} else if(isWaitingPWM){
-		//Turn on PWM
+		//Turn on/off PWM
 		for(int iter = 0; iter < 5; iter ++) {
 			if(pwm_[iter].state_ == STATE_ON) {
 				startPWM(iter, pwm_[iter].dutyCycle_);
