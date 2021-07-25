@@ -37,6 +37,12 @@ extern CRC_HandleTypeDef hcrc;
 //UART typedef
 extern UART_HandleTypeDef huart1;
 
+//SPI for AD9833, wave-generator-1
+SPI_HandleTypeDef hspi1;
+
+//SPI for AD9833, wave-generator-2
+SPI_HandleTypeDef hspi2;
+
 //Device On/Off state
 typedef enum {
 	STATE_OFF = 0,
@@ -139,5 +145,25 @@ void sendNACK(void);
  * @return : none
  */
 void sendFormat(char* format, ...);
+
+/*
+ * Write 16-bit word to SPI1
+ *
+ * Writes given 16-bit word to SPI MOSI
+ *
+ * @params : Word(uint16_t)
+ * @return : none
+ */
+void writeSPI1(uint16_t word);
+
+/*
+ * Write 16-bit word to SPI2
+ *
+ * Writes given 16-bit word to SPI MOSI
+ *
+ * @params : Word(uint16_t)
+ * @return : none
+ */
+void writeSPI2(uint16_t word);
 
 #endif /* INC_COM_H_ */

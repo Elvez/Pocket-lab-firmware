@@ -61,3 +61,13 @@ void sendFormat(char* format, ...) {
 	va_end(args);
 }
 
+void writeSPI1(uint16_t word) {
+	//Send data as two bytes, msb and lsb
+	HAL_SPI_Transmit(&hspi1, (uint8_t*)&word, 2, HAL_MAX_DELAY);
+}
+
+void writeSPI2(uint16_t word) {
+	//Send data as two bytes, msb and lsb
+	HAL_SPI_Transmit(&hspi2, (uint8_t*)&word, 2, HAL_MAX_DELAY);
+}
+
