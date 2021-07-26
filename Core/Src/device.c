@@ -256,7 +256,11 @@ void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, OscilloscopeTyp
 		}
 
 	} else if(waveGenerator_.isWaiting_) {
-		//Run/Stop wave-generator
+		//Kill all running tasks
+		killMultimeter();
+		killOscilloscope();
+
+		//Run or Stop wave-generator
 		if(waveGenerator_.state == STATE_ON) {
 			initWG(waveGenerator_.wave_, waveGenerator_.period_, waveGenerator_.phase_, waveGenerator_.source_);
 		} else {
@@ -267,7 +271,11 @@ void runDevice(MultimeterTypedef mul_, WaveGeneratorTypedef wg_, OscilloscopeTyp
 		waveGenerator_.isWaiting_ = false;
 
 	} else if(isWaitingPWM){
-		//Turn on/off PWM
+		//Kill all running tasks
+		killMultimeter();
+		killOscilloscope();
+
+		//Turn PWM on or off
 		for(int iter = 0; iter < 5; iter ++) {
 			if(pwm_[iter].state_ == STATE_ON) {
 				startPWM(iter, pwm_[iter].dutyCycle_);
